@@ -1,0 +1,66 @@
+<mvc:View
+   controllerName="client.controller.masterdata.Items"
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core"
+   height="100%"
+   xmlns:mvc="sap.ui.core.mvc">  
+    <Page id="dynamicPageId"  showNavButton="true" navButtonPress=".onNavBack" >
+<Table
+        id="itemsList"
+        headerText="{i18n>itemsListTitle}"
+        class="sapUiResponsiveMargin"
+        width="auto"   
+            
+        items="{
+         path : 'items>/itemsData',
+         sorter : {
+                path : 'ItemID',
+                group : false
+            }
+      }"
+    >
+        <headerToolbar>
+            <Toolbar>
+                <Title text="{i18n>itemsListTitle}  ({items>/Total})" />
+                <ToolbarSpacer />
+               <Label id="inputTextLabel" text="Item" labelFor="inputText" />
+			<Input
+				id="inputText"
+				placeholder="Enter text"
+				maxlength="5"
+                width="150px"
+				change="handleChange"
+				input="handleInput"
+				ariaLabelledBy="inputTextLabel"/>
+                <Button text="{i18n>InsertItem}" class="sapUiTinyMarginEnd" press=".onInsertItem"/> 
+                <Button id="btnRefresh" icon="sap-icon://refresh" class="sapUiTinyMarginEnd" press=".onRefresh"/>
+            </Toolbar>
+        </headerToolbar>
+        <columns>
+            <Column
+                hAlign="End"
+                minScreenWidth="Small"
+                demandPopin="true"
+                width="5em"
+            >
+                <Text text="{i18n>columnItemID}" />
+            </Column>
+            <Column>
+                <Text text="{i18n>columnItemName}" />
+            </Column>            
+        </columns>
+        <items>
+            <ColumnListItem
+                type="Navigation"
+                press=".onItemPress"              
+            >
+                <cells>                    
+                    <ObjectNumber number="{items>ID}" />    
+                    <ObjectNumber number="{items>ItemName}" />  
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>  
+  
+    </Page>   
+</mvc:View>

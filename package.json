@@ -7,15 +7,21 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
+    "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
+    "@sap/xssec": "^3",
     "express": "^4",
-    "@sap/cds-hana": "^2"
+    "passport": "^0"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
-    "@sap/cds-dk": "^7"
+    "@sap/cds-dk": "^7",
+    "@sap/ux-specification": "^1.120.1"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve",
+    "watch-saps4hanaservice": "cds watch --open saps4hanaservice/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-client": "cds watch --open client/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "build": {
@@ -32,5 +38,9 @@
     "requires": {
       "db": "hana"
     }
-  }
+  },
+  "sapux": [
+    "app/saps4hanaservice",
+    "app/client"
+  ]
 }

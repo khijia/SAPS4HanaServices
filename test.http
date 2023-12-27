@@ -1,0 +1,14 @@
+###
+GET http://localhost:4004/odata/v4/master-data/Customers_Header
+
+###
+GET http://localhost:4004/odata/v4/master-data/Items_Header
+
+###
+POST http://localhost:4004/odata/v4/master-data/Items_Header
+Content-Type: application/json
+
+{
+    "ID": 3,
+    "ItemName": "Item03"
+}

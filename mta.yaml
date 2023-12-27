@@ -1,40 +1,118 @@
-_schema-version: '3.1'
+_schema-version: "3.1"
 ID: SAPS4HanaServices
+description: A simple CAP project.
 version: 1.0.0
-description: "A simple CAP project."
+modules:
+- name: SAPS4HanaServices-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: SAPS4HanaServices-db
+  - name: SAPS4HanaServices-auth
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+  build-parameters:
+    builder: npm
+- name: SAPS4HanaServices-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: SAPS4HanaServices-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: SAPS4HanaServices
+  type: approuter.nodejs
+  path: app/
+  requires:
+  - name: srv-api
+    group: destinations
+    properties:
+      forwardAuthToken: true
+      name: srv-api
+      url: ~{srv-url}
+  - name: SAPS4HanaServices-auth
+  - name: SAPS4HanaServices-destination-service
+    group: destinations
+    properties:
+      forwardAuthToken: false
+      name: ui5
+      url: https://ui5.sap.com
+  parameters:
+    disk-quota: 256M
+    keep-existing-routes: true
+    memory: 256M
+- name: SAPS4HanaServices-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: SAPS4HanaServices-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - tcs4h.zip
+      name: tcs4h
+      target-path: resources/
+- name: tcs4h
+  type: html5
+  path: app/s4h
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: SAPS4HanaServices-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+- name: SAPS4HanaServices-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: SAPS4HanaServices-${org}-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
+- name: SAPS4HanaServices-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: SAPS4HanaServices-html5-srv
+    service-plan: app-host
+- name: SAPS4HanaServices-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: SAPS4HanaServices-destination-service
+    service-plan: lite
 parameters:
+  deploy_mode: html5-repo
   enable-parallel-deployments: true
 build-parameters:
   before-all:
-    - builder: custom
-      commands:
-        - npx cds build --production
-modules:
-  - name: SAPS4HanaServices-srv
-    type: nodejs
-    path: gen/srv
-    parameters:
-      buildpack: nodejs_buildpack
-    build-parameters:
-      builder: npm
-    provides:
-      - name: srv-api # required by consumers of CAP services (e.g. approuter)
-        properties:
-          srv-url: ${default-url}
-    requires:
-      - name: SAPS4HanaServices-db
-
-  - name: SAPS4HanaServices-db-deployer
-    type: hdb
-    path: gen/db
-    parameters:
-      buildpack: nodejs_buildpack
-    requires:
-      - name: SAPS4HanaServices-db
-
-resources:
-  - name: SAPS4HanaServices-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
+  - builder: custom
+    commands:
+    - npx cds build --production
