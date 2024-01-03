@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="MasterDataService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Items_Header" EntityType="MasterDataService.Items_Header">
+                    <NavigationPropertyBinding Path="Items" Target="Items_Detail"/>
+                </EntitySet>
+                <EntitySet Name="Items_Detail" EntityType="MasterDataService.Items_Detail">
+                    <NavigationPropertyBinding Path="ItemId" Target="Items_Header"/>
+                </EntitySet>
+                <EntitySet Name="Customers_Header" EntityType="MasterDataService.Customers_Header">
+                    <NavigationPropertyBinding Path="Customers" Target="Customers_Detail"/>
+                </EntitySet>
+                <EntitySet Name="Customers_Detail" EntityType="MasterDataService.Customers_Detail">
+                    <NavigationPropertyBinding Path="CustomerId" Target="Customers_Header"/>
+                </EntitySet>
+            </EntityContainer>
+            <EntityType Name="Items_Header">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="ItemName" Type="Edm.String" MaxLength="500"/>
+                <NavigationProperty Name="Items" Type="Collection(MasterDataService.Items_Detail)" Partner="ItemId">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Items_Detail">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <NavigationProperty Name="ItemId" Type="MasterDataService.Items_Header" Partner="Items">
+                    <ReferentialConstraint Property="ItemId_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="ItemId_ID" Type="Edm.Int32"/>
+                <Property Name="ItemName" Type="Edm.String" MaxLength="500"/>
+                <Property Name="PartnerType" Type="Edm.String" MaxLength="5"/>
+                <Property Name="PartnerId" Type="Edm.Int32"/>
+                <Property Name="LocationName" Type="Edm.String" MaxLength="100"/>
+                <Property Name="EDIUom" Type="Edm.String" MaxLength="50"/>
+            </EntityType>
+            <EntityType Name="Customers_Header">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="CustomerName" Type="Edm.String" MaxLength="500"/>
+                <NavigationProperty Name="Customers" Type="Collection(MasterDataService.Customers_Detail)" Partner="CustomerId">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Customers_Detail">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <NavigationProperty Name="CustomerId" Type="MasterDataService.Customers_Header" Partner="Customers">
+                    <ReferentialConstraint Property="CustomerId_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="CustomerId_ID" Type="Edm.Int32"/>
+                <Property Name="SUQlf" Type="Edm.String" MaxLength="100"/>
+                <Property Name="SUCode" Type="Edm.String" MaxLength="10"/>
+                <Property Name="PayMethod" Type="Edm.String" MaxLength="100"/>
+                <Property Name="PayQlf" Type="Edm.String" MaxLength="100"/>
+                <Property Name="WeightUOM" Type="Edm.String" MaxLength="50"/>
+                <Property Name="VolumnUOM" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TermCode" Type="Edm.String" MaxLength="50"/>
+                <Property Name="DeptNum" Type="Edm.String" MaxLength="50"/>
+            </EntityType>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

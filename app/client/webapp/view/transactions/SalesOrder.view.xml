@@ -1,0 +1,91 @@
+<mvc:View
+   controllerName="tc.com.controller.transactions.SalesOrder"
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core"
+   height="100%"
+   xmlns:mvc="sap.ui.core.mvc">  
+    <Page id="dynamicPageId"  showNavButton="true" navButtonPress=".onNavBack" >
+<Table
+        id="salesOrderList"
+        headerText="{i18n>salesOrderListTitle}"
+        class="sapUiResponsiveMargin"
+        width="auto"       
+        items="{
+         path : 'orders>/ordersData',
+         sorter : {
+                path : 'OrderID',
+                group : false
+            }
+      }"
+    >
+        <headerToolbar>
+            <Toolbar>
+                <Title text="{i18n>salesOrderListTitle}  ({orders>/Total})" />
+                <ToolbarSpacer />
+                <SearchField
+                    width="50%"
+                    search=".onFilterSalesOrders"
+                />
+            </Toolbar>
+        </headerToolbar>
+        <columns>
+            <Column
+                hAlign="End"
+                minScreenWidth="Small"
+                demandPopin="true"
+                width="5em"
+            >
+                <Text text="{i18n>columnOrderID}" />
+            </Column>
+            <Column>
+                <Text text="{i18n>columnCustomerID}" />
+            </Column>
+            <Column            >
+                <Text text="{i18n>columnOrderDate}" />
+            </Column>
+            <Column
+                minScreenWidth="Tablet"
+                demandPopin="false"            >
+                <Text text="{i18n>columnFreight}" />
+            </Column>
+            <Column
+                minScreenWidth="Tablet"
+                demandPopin="false"            >
+                <Text text="{i18n>columnShipName}" />
+            </Column>
+            <Column hAlign="End">
+                <Text text="{i18n>columnShipAddress}" />
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem
+                type="Navigation"
+                press=".onItemPress"
+              
+            >
+                <cells>                    
+                    <ObjectNumber number="{orders>OrderID}" />    
+                    <ObjectNumber number="{orders>CustomerID}" />                    
+                    <Text text="{ path: 'orders>OrderDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'dd/MM/yyyy' } }"/>
+                    <ObjectNumber
+                        number="{
+								parts: [
+									'orders>Freight',
+									'view>/currency'
+								],
+								type: 'sap.ui.model.type.Currency',
+								formatOptions: {
+									showMeasure: false
+								}
+							}"
+                        unit="{view>/currency}"                        
+                    />
+                    <Text text="{orders>ShipName}" />
+                    <Text text="{orders>ShipAddress}" />
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>  
+  
+    </Page>   
+</mvc:View>

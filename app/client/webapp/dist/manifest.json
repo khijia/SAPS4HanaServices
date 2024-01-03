@@ -1,0 +1,173 @@
+{
+  "_version": "1.59.0",
+  "sap.app": {
+    "id": "tc.com",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.11.5",
+      "toolsId": "42bf85be-1e6f-49ff-bcfd-138c723616d9"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/v2/odata/v4/master-data/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "transService":{
+				"uri": "https://services.odata.org/V2/Northwind/Northwind.svc/",
+				"type": "OData",
+				"settings": {
+          "localUri": "localService/metadata_norwind.xml",
+					"odataVersion": "2.0"
+				}
+			}
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "rootView": {
+			"viewName": "tc.com.view.App",
+			"type": "XML",
+			"async": false,
+			"id": "fcl"
+		},
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.120.3",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ushell": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "tc.com.i18n.i18n"
+        }
+      },
+      "data": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "data1": {
+        "dataSource": "transService"        
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+				"type": "View",
+				"viewType": "XML",
+				"path": "tc.com.view",
+				"controlId": "app",		
+				"controlAggregation": "pages",		
+				"transition": "slide",
+				"async": true,
+				"bypassed": {
+					
+				},
+				"fullWidth": true
+      },
+      "routes": [				
+				{
+					"pattern": "",
+					"name": "home",
+					"target": "home"
+				},				
+				{
+					"pattern": "items",
+					"name": "items",
+					"target": "items"
+				}		,
+
+        {
+					"pattern": "salesorder",
+					"name": "salesorder",
+					"target": "salesorder"
+				},
+				{
+					"pattern": "sodetail/{order}",
+					"name": "sodetail",
+					"target": "sodetail"
+				}		
+				
+			],
+			"targets": {				
+				"home": {
+					"id": "home",
+					"name": "Home",
+					"level": 1									
+				},
+				"items": {		
+          "id":"items",
+					"name": "Items",	
+					"path":"tc.com.view.masterdata"	,
+					"level": 2						
+				}		,
+        "salesorder": {	
+          "id":"salesorder",	
+					"name": "SalesOrder",	
+					"path":"tc.com.view.transactions"	,
+					"level": 2						
+				},
+				"sodetail":{	
+          "id":"sodetail",	
+					"name": "SalesOrderDetails",	
+					"path":"tc.com.view.transactions"    						,
+					"level": 3		
+				  }			
+			}
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}

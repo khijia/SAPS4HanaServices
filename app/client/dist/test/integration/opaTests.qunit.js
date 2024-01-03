@@ -1,0 +1,2 @@
+sap.ui.require(["sap/fe/test/JourneyRunner","client/test/integration/FirstJourney","client/test/integration/pages/Items_HeaderList","client/test/integration/pages/Items_HeaderObjectPage"],function(e,t,n,r){"use strict";var e=new e({launchUrl:sap.ui.require.toUrl("client")+"/index.html"});e.run({pages:{onTheItems_HeaderList:n,onTheItems_HeaderObjectPage:r}},t.run)});
+//# sourceMappingURL=opaTests.qunit.js.map

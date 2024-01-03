@@ -1,0 +1,170 @@
+<mvc:View
+ controllerName="tc.com.controller.transactions.SalesOderDetails"
+	xmlns:x="sap.uxap"
+	xmlns:m="sap.m"
+	xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc">
+	<m:Page showNavButton="true" navButtonPress=".onNavBack">
+
+	<x:ObjectPageLayout
+		id="ObjectPageLayout"
+		showTitleInHeaderContent="true"
+		alwaysShowContentHeader="false"
+		preserveHeaderStateOnScroll="false"
+		headerContentPinnable="true"
+		isChildPage="true"
+		upperCaseAnchorBar="false"
+		
+		>
+        <x:headerTitle >
+			<x:ObjectPageDynamicHeaderTitle>
+                <x:expandedHeading>
+					<m:Title text="{orderDetails>/OrderNumber}" wrapping="true" class="sapUiSmallMarginEnd"/>
+				</x:expandedHeading>
+
+				<x:snappedHeading>
+					<m:FlexBox wrap="Wrap" fitContainer="true" alignItems="Center">
+						<m:FlexBox wrap="NoWrap" fitContainer="true" alignItems="Center" class="sapUiTinyMarginEnd">
+							<f:Avatar
+								src="https://ui5.sap.com/{orderDetails>/ProductPicUrl}"
+								displaySize="S"
+								displayShape="Square"
+								class="sapUiTinyMarginEnd"/>
+							<m:Title text="{orderDetails>/OrderDesc}" wrapping="true"/>
+						</m:FlexBox>
+					</m:FlexBox>
+				</x:snappedHeading>
+				<x:actions>
+					<m:ToggleButton
+						text="Edit"
+						type="Emphasized"
+                        press=".onEditToggleButtonPress"/>
+					<m:Button
+						text="Delete"
+						type="Transparent"/>
+					<m:Button
+						text="Copy"
+						type="Transparent"/>
+					<m:Button
+						icon="sap-icon://action"
+						type="Transparent"/>
+				</x:actions>
+			</x:ObjectPageDynamicHeaderTitle>
+		</x:headerTitle>
+        <x:headerContent>
+			<m:FlexBox wrap="Wrap" fitContainer="true" alignItems="Stretch">
+				<f:Avatar
+                    src="https://sdk.openui5.org/test-resources/sap/ui/documentation/sdk/images/HT-1000.jpg"
+					displaySize="L"
+					displayShape="Square"
+					class="sapUiTinyMarginEnd">
+				</f:Avatar>
+				<m:VBox justifyContent="Center" class="sapUiSmallMarginEnd">
+					<m:Label text="Sales Order#"/>
+                    <m:Text text="{orderDetails>/OrderNumber}"/>
+				</m:VBox>
+				<m:VBox justifyContent="Center" class="sapUiSmallMarginEnd">
+					<m:Label text="Customer"/>
+                    <m:Text text="{orderDetails>/Customer}"/>
+				</m:VBox>
+				<m:VBox justifyContent="Center" class="sapUiSmallMarginEnd">
+					<m:Label text="Total"/>
+                    <m:Text text="{orderDetails>/TotalAmount}"/>
+				</m:VBox>
+			</m:FlexBox>
+		</x:headerContent>
+
+        <x:sections>
+			<x:ObjectPageSection title="General Information">
+				<x:subSections>
+					<x:ObjectPageSubSection>
+						<x:blocks>
+							<form:SimpleForm
+								maxContainerCols="2"
+								editable="false"
+								layout="ResponsiveGridLayout"
+								labelSpanL="12"
+								labelSpanM="12"
+								emptySpanL="0"
+								emptySpanM="0"
+								columnsL="1"
+								columnsM="1">
+								<form:content>
+									<m:Label text="Order#"/>
+                                    <m:Text text="Product I"/>
+									<m:Label text="Description"/>
+                                    <m:Text text="Testing Infor"/>
+									<m:Label text="Order Date"/>
+                                    <m:Text text="09/10/2023"/>
+								</form:content>
+							</form:SimpleForm>
+						</x:blocks>
+					</x:ObjectPageSubSection>
+				</x:subSections>
+			</x:ObjectPageSection>
+
+			<x:ObjectPageSection title="Items">
+				<x:subSections>
+					<x:ObjectPageSubSection>
+						<x:blocks>
+							<m:Table
+								id="itemsTable"
+								items="{path : 'orderDetails>/detailsData'}">
+								<m:columns>
+									<m:Column hAlign="End"
+                                        minScreenWidth="Small"
+                                        demandPopin="true"
+                                        width="5em">
+                                        <m:Text text="Product ID" />
+                                        </m:Column>
+                                        <m:Column hAlign="End"
+                                        minScreenWidth="Small"
+                                        demandPopin="true"
+                                        width="5em">
+                                        <m:Text text="Unit Price" />                                        
+                                        </m:Column>
+
+                                         <m:Column hAlign="End"
+                                        minScreenWidth="Small"
+                                        demandPopin="true"
+                                        width="5em">
+                                        <m:Text text="Quantity" />                                        
+                                        </m:Column>
+
+                                         <m:Column hAlign="End"
+                                        minScreenWidth="Small"
+                                        demandPopin="true"
+                                        width="5em">
+                                        <m:Text text="Discount" />                                        
+                                        </m:Column>
+								</m:columns>
+								<m:items >                                
+									<m:ColumnListItem type="Navigation" press=".onItemPress">
+										<m:cells>
+											<m:ObjectIdentifier text="{orderDetails>ProductID}"/>
+                                            <m:ObjectNumber number="{orderDetails>UnitPrice}" />  
+                                            
+                                        <m:ObjectNumber number="{orderDetails>Quantity}" />   
+                                        <m:ObjectNumber number="{orderDetails>Discount}" />                     
+                    
+										</m:cells>
+									</m:ColumnListItem>   
+                                                 
+								</m:items>
+							</m:Table>
+						</x:blocks>
+					</x:ObjectPageSubSection>
+				</x:subSections>
+			</x:ObjectPageSection>
+		</x:sections>
+        <x:footer>
+			<m:OverflowToolbar>
+				<m:ToolbarSpacer/>
+				<m:Button type="Accept" text="Save"/>
+				<m:Button type="Reject" text="Cancel"/>
+			</m:OverflowToolbar>
+		</x:footer>
+	</x:ObjectPageLayout>
+	</m:Page>
+</mvc:View>

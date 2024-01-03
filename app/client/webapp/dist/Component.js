@@ -1,0 +1,2 @@
+sap.ui.define(["sap/ui/core/UIComponent","sap/ui/model/json/JSONModel","sap/ui/model/resource/ResourceModel","sap/ui/Device"],function(e,t,i,n){"use strict";return e.extend("tc.com.Component",{metadata:{manifest:"json"},init:function(){var o,s;e.prototype.init.apply(this,arguments);o=new t;this.setModel(o);const a=new t(n);a.setDefaultBindingMode("OneWay");this.setModel(a,"device");const c=new i({bundleName:"tc.com.i18n.i18n"});this.setModel(c,"i18n");s=this.getRouter();s.initialize()}})});
+//# sourceMappingURL=Component.js.map

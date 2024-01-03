@@ -1,0 +1,2 @@
+sap.ui.define(["sap/fe/test/ObjectPage"],function(e){"use strict";var t={actions:{},assertions:{}};return new e({appId:"client",componentId:"Items_HeaderObjectPage",contextPath:"/Items_Header"},t)});
+//# sourceMappingURL=Items_HeaderObjectPage.js.map

@@ -1,0 +1,2 @@
+sap.ui.define(["sap/fe/test/ListReport"],function(e){"use strict";var t={actions:{},assertions:{}};return new e({appId:"client",componentId:"Items_HeaderList",contextPath:"/Items_Header"},t)});
+//# sourceMappingURL=Items_HeaderList.js.map

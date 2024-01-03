@@ -9,6 +9,24 @@ POST http://localhost:4004/odata/v4/master-data/Items_Header
 Content-Type: application/json
 
 {
-    "ID": 3,
-    "ItemName": "Item03"
+  
+    "ItemName": "Item13"
+}
+
+###
+GET http://localhost:4004/odata/v4/master-data/Items_Detail
+
+###
+POST http://localhost:4004/odata/v4/master-data/Items_Detail
+Content-Type: application/json
+
+{   
+    "ItemId":{
+        "ID": "c71e5df4-0e3c-4def-a3e2-0102bf457859"
+    },
+    "ItemName": "Pencil",
+    "PartnerType": "1",
+    "PartnerId": 1,
+    "LocationName":"US",
+    "EDIUom": "EA"
 }

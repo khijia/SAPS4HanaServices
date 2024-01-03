@@ -1,7 +1,7 @@
 {
   "_version": "1.59.0",
   "sap.app": {
-    "id": "client",
+    "id": "tc.com",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -22,6 +22,14 @@
         "settings": {
           "annotations": [],
           "localUri": "localService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "transService": {
+        "uri": "https://cors-anywhere.herokuapp.com/https://services.odata.org/V2/Northwind/Northwind.svc/",
+        "type": "OData",
+        "settings": {
+          "localUri": "localService/metadata_norwind.xml",
           "odataVersion": "2.0"
         }
       }
@@ -45,11 +53,11 @@
   },
   "sap.ui5": {
     "rootView": {
-			"viewName": "client.view.App",
-			"type": "XML",
-			"async": false,
-			"id": "fcl"
-		},
+      "viewName": "tc.com.view.App",
+      "type": "XML",
+      "async": false,
+      "id": "fcl"
+    },
     "flexEnabled": true,
     "dependencies": {
       "minUI5Version": "1.120.3",
@@ -68,7 +76,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "client.i18n.i18n"
+          "bundleName": "tc.com.i18n.i18n"
         }
       },
       "data": {
@@ -81,6 +89,9 @@
           "earlyRequests": true
         }
       },
+      "transdata": {
+        "dataSource": "transService"
+      },
       "@i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "uri": "i18n/i18n.properties"
@@ -92,44 +103,85 @@
     "routing": {
       "config": {
         "routerClass": "sap.m.routing.Router",
-				"type": "View",
-				"viewType": "XML",
-				"path": "client.view",
-				"controlId": "app",		
-				"controlAggregation": "pages",		
-				"transition": "slide",
-				"async": true,
-				"bypassed": {
-					
-				},
-				"fullWidth": true
+        "type": "View",
+        "viewType": "XML",
+        "path": "tc.com.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
+        "transition": "slide",
+        "async": true,
+        "bypassed": {},
+        "fullWidth": true
       },
-      "routes": [				
-				{
-					"pattern": "",
-					"name": "home",
-					"target": "home"
-				},				
-				{
-					"pattern": "items",
-					"name": "items",
-					"target": "items"
-				}				
-				
-			],
-			"targets": {				
-				"home": {
-					"id": "home",
-					"name": "Home",
-					"level": 1									
-				},
-				"items": {		
-          "id":"items",
-					"name": "Items",	
-					"path":"client.view.masterdata"	,
-					"level": 2						
-				}				
-			}
+      "routes": [
+        {
+          "pattern": "",
+          "name": "home",
+          "target": "home"
+        },
+        {
+          "pattern": "items",
+          "name": "items",
+          "target": "items"
+        },
+        {
+          "pattern": "newitem",
+          "name": "newitem",
+          "target": "newitem"
+        },
+        {
+          "pattern": "viewitem",
+          "name": "viewitem",
+          "target": "viewitem"
+        },        
+        {
+          "pattern": "salesorder",
+          "name": "salesorder",
+          "target": "salesorder"
+        },
+        {
+          "pattern": "sodetail/{order}",
+          "name": "sodetail",
+          "target": "sodetail"
+        }
+      ],
+      "targets": {
+        "home": {
+          "id": "home",
+          "name": "Home",
+          "level": 1
+        },
+        "items": {
+          "id": "items",
+          "name": "Items",
+          "path": "tc.com.view.masterdata",
+          "level": 2
+        },
+        "newitem": {
+          "id": "newitem",
+          "name": "NewItem",
+          "path": "tc.com.view.masterdata",
+          "level": 2
+        },
+        "viewitem": {
+          "id": "viewitem",
+          "name": "ViewItem",
+          "path": "tc.com.view.masterdata",
+          "level": 3
+        },
+        "salesorder": {
+          "id": "salesorder",
+          "name": "SalesOrder",
+          "path": "tc.com.view.transactions",
+          "level": 2
+        },
+        "sodetail": {
+          "id": "sodetail",
+          "name": "SalesOrderDetails",
+          "path": "tc.com.view.transactions",
+          "level": 3
+        }
+      }
     }
   },
   "sap.fiori": {

@@ -1,0 +1,14 @@
+{
+	"selectedKey": "mainpage",
+	"navigation": [		
+		{			
+			"icon": "sap-icon://menu2",
+			"key": "app1"
+		},
+		{
+			"title": "Sales Orders",
+			"key": "salesorder",
+			"icon": "sap-icon://sales-document"
+		}
+	]
+}

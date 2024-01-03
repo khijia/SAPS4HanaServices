@@ -1,0 +1,276 @@
+<mvc:View
+    controllerName="tc.com.controller.masterdata.ViewItem"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:m="sap.m"
+    xmlns:t="sap.ui.table"
+    height="100%"
+>
+    <Page
+        title="Master Data - Item Information"
+        id="page"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+    >
+        <headerContent>
+            <Button
+                id="demo"
+                type="Emphasized"
+                text="Home"
+            />
+        </headerContent>
+        <content>
+            <HBox id="hBox1">
+                <Avatar
+                    id="itemImage"
+                    src=""
+                    displaySize="XL"
+                    showBorder="true"
+                />
+                <VBox
+                    id="vBox1"
+                    class="sapUiSmallMargin sapUiLargeMarginBegin"
+                >
+                    <HBox id="hBox11">
+                        <Label
+                            id="lblItemNum"
+                            text="Item:"
+                            class="sapUiSmallMargin"
+                        />
+                        <Text
+                            id="ItemNumber"
+                            text="122344"
+                            class="sapUiSmallMargin"
+                        />
+                    </HBox>
+                    <HBox id="hBox12">
+                        <Label
+                            id="lblItemDesc"
+                            text="Description:"
+                            class="sapUiSmallMargin"
+                        />
+                        <Text
+                            id="ItemDesc"
+                            text="Pencil"
+                            class="sapUiSmallMargin"
+                        />
+                    </HBox>
+                </VBox>
+            </HBox>
+            <Panel
+                id="pItemDetailsDetail"
+                expandable="false"
+                width="auto"
+            >
+                <content>
+                    <IconTabBar
+                        id="idIconTabBarNoIcons"
+                        expanded="{device>/isNoPhone}"
+                    >
+                        <items>
+                            <IconTabFilter
+                                text="Data Information"
+                                key="Info"
+                            >
+                                <content>
+                                    <t:Table
+                                        id="table"
+                                        selectionMode="MultiToggle"
+                                        enableSelectAll="false"
+                                        ariaLabelledBy="title"
+                                        rows="{
+                                            path: 'itemDetails>/details',
+                                            parameters: {
+                                                expand: 'Items_Header'
+                                            }
+                                        }"
+                                        threshold="15"
+                                        enableBusyIndicator="true"
+                                    >
+                                        <t:noData>
+                                            <m:BusyIndicator class="sapUiMediumMargin" />
+                                        </t:noData>
+                                        <t:extension>
+                                            <m:OverflowToolbar style="Clear">                                               
+                                                <m:ToolbarSpacer />
+                                                <m:Button
+                                                    icon="sap-icon://add"
+                                                    text="Add"
+                                                    tooltip="Add"
+                                                    press="onAddItemData"
+                                                    ariaHasPopup="Dialog"
+                                                />
+                                            </m:OverflowToolbar>
+                                        </t:extension>
+                                        <t:columns>
+                                            <t:Column
+                                                sortProperty="ItemID"
+                                                filterProperty="ItemID"
+                                                autoResizable="true"
+                                                width="auto"
+                                            >
+                                                <m:Label text="Item ID" />
+                                                <t:template>
+                                                    <m:Text
+                                                        text="{itemDetails>ItemId_ID}"
+                                                        wrapping="false"
+                                                    />
+                                                </t:template>
+                                            </t:Column>
+                                            <t:Column
+                                                sortProperty="ItemName"
+                                                filterProperty="ItemName"
+                                                autoResizable="true"
+                                                width="auto"
+                                            >
+                                                <m:Label text="Item Name" />
+                                                <t:template>
+                                                    <m:Text
+                                                        text="{itemDetails>ItemName}"
+                                                        wrapping="false"
+                                                    />
+                                                </t:template>
+                                            </t:Column>
+                                            <t:Column
+                                                sortProperty="PartnerType"
+                                                filterProperty="PartnerType"
+                                                autoResizable="true"
+                                                width="auto"
+                                            >
+                                                <m:Label text="Partner Type" />
+                                                <t:template>
+                                                    <m:Text
+                                                        text="{itemDetails>PartnerType}"
+                                                        wrapping="false"
+                                                    />
+                                                </t:template>
+                                            </t:Column>
+                                            <t:Column
+                                                sortProperty="TradingPartner"
+                                                filterProperty="TradingPartner"
+                                                autoResizable="true"
+                                                width="auto"
+                                            >
+                                                <m:Label text="Partner ID" />
+                                                <t:template>
+                                                    <m:Text
+                                                        text="{itemDetails>PartnerId}"
+                                                        wrapping="false"
+                                                    />
+                                                </t:template>
+                                            </t:Column>
+                                        </t:columns>
+                                    </t:Table>
+                                </content>
+                            </IconTabFilter>
+                            <IconTabFilter
+                                text="Cross References Information"
+                                key="CrossRefInfo"
+                            >
+                                <Text text="Cross References Information go here ..." />
+                            </IconTabFilter>
+                        </items>
+                    </IconTabBar>
+                </content>
+            </Panel>
+            <!-- <Table
+				id="table"
+				selectionMode="MultiToggle"
+				enableSelectAll="false"
+				rows="{
+					path: '/Items',
+					parameters: {operationMode: 'Server'}
+				}"
+				threshold="15"
+				enableBusyIndicator="true"
+				ariaLabelledBy="title">
+				<noData>
+					<m:BusyIndicator class="sapUiMediumMargin"/>
+				</noData>
+				<extension>
+					<m:OverflowToolbar style="Clear">
+						<m:Title id="title" text="Products"/>
+						<m:ToolbarSpacer/>
+						<m:Button
+							icon="sap-icon://refresh"
+							tooltip="Reinitialize Model"
+							press="onModelRefresh"/>
+					</m:OverflowToolbar>
+				</extension>
+				<columns>
+                <Column
+						sortProperty="ItemID"
+						filterProperty="ItemID"
+						autoResizable="true"
+						width="6rem">
+						<m:Label text="{/#Product/ProductID/@sap:label}" />
+						<template>
+							<m:Text text="{ProductID}" wrapping="false" />
+						</template>
+					</Column>
+					<Column
+						sortProperty="ItemName"
+						filterProperty="ItemName"
+						autoResizable="true"
+						width="11rem">
+						<m:Label text="{/#Product/Name/@sap:label}" />
+						<template>
+							<m:Text text="{Name}" wrapping="false" />
+						</template>
+					</Column>
+                    <Column
+						sortProperty="PartnerType"
+						filterProperty="PartnerType"
+						autoResizable="true"
+						width="11rem">
+						<m:Label text="{/#Product/Category/@sap:label}" />
+						<template>
+							<m:Text text="{Category}" wrapping="false" />
+						</template>
+					</Column>					
+					<Column
+						sortProperty="TradingPartner"
+						filterProperty="TradingPartner"
+						autoResizable="true"
+						width="11rem">
+						<m:Label text="{/#Product/Category/@sap:label}" />
+						<template>
+							<m:Text text="{Category}" wrapping="false" />
+						</template>
+					</Column>
+					<Column
+						sortProperty="SupplierName"
+						filterProperty="SupplierName"
+						autoResizable="true"
+						width="12rem">
+						<m:Label text="{/#Product/SupplierName/@sap:label}" />
+						<template>
+							<m:Text text="{SupplierName}" wrapping="false" />
+						</template>
+					</Column>
+					<Column
+						filterProperty="Price"
+						width="9rem">
+						<m:Label text="{/#Product/Price/@sap:label}" />
+						<template>
+							<u:Currency value="{
+								path: 'Price',
+								type: 'sap.ui.model.type.String'
+							}" currency="{CurrencyCode}"/>
+						</template>
+					</Column>
+					<Column
+						hAlign="End"
+						autoResizable="true"
+						width="9rem">
+						<m:Label text="{/#Product/Width/@sap:label}" />
+						<template>
+							<m:Text text="{Width}x{Height}x{Depth} {DimUnit}" wrapping="false" />
+						</template>
+					</Column>
+				</columns>				
+			</Table> -->
+        </content>
+    </Page>
+</mvc:View>

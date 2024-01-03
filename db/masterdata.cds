@@ -1,19 +1,14 @@
 namespace tc.masterdata;
 
-using { Country } from '@sap/cds/common';
+using { Country, cuid } from '@sap/cds/common';
 
-type SDate : DateTime;
-type LText : String(1024);
-
-entity Items_Header  {
-    key ID       : Integer;        
+entity Items_Header: cuid   { 
         ItemName : String(500);
         Items   : Composition of many Items_Detail
                        on Items.ItemId = $self;
 }
 
-entity Items_Detail  {   
-    key ID: Integer;
+entity Items_Detail : cuid  {  
         ItemId       : Association to Items_Header;
         ItemName     : String(500);
         PartnerType  : String(5);
@@ -22,15 +17,14 @@ entity Items_Detail  {
         EDIUom       : String(50);
 }
 
-entity Customers_Header  {
-    key ID           : Integer;        
+entity Customers_Header: cuid  {     
         CustomerName : String(500);
         Customers    : Composition of many Customers_Detail
                            on Customers.CustomerId = $self;
+                                        
 }
 
-entity Customers_Detail  {
-    key ID         : Integer;
+entity Customers_Detail: cuid   {   
         CustomerId : Association to Customers_Header;
         SUQlf      : String(100);
         SUCode     : String(10);

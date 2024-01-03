@@ -1,5 +1,5 @@
 sap.ui.define([
-	"client/controller/BaseController",
+	"tc/com/controller/BaseController",
 	"sap/ui/model/json/JSONModel",
 	"sap/ui/core/routing/History"
 
@@ -9,7 +9,7 @@ sap.ui.define([
 	History
 ) {
 	"use strict";
-	return BaseController.extend("client.controller.masterdata.Items", {
+	return BaseController.extend("tc.com.controller.masterdata.Items", {
 		onInit() {
 			var that = this;
 			this._bDescendingSort = false;
@@ -80,9 +80,14 @@ sap.ui.define([
 			debugger
 			var itemid = oEvent.getSource().getBindingContext("items").getProperty("ItemID");
 			this.oRouter = this.getOwnerComponent().getRouter();
-			this.oRouter.navTo("itemdetail", { item: itemid }, false);
+			this.oRouter.navTo("viewitem", { item: itemid }, false);
 		},
 
+		onNewItem: function(){
+			this.oRouter = this.getOwnerComponent().getRouter();
+			this.oRouter.navTo("newitem", {  }, false);
+		},
+		
 		onNavBack() {
 			debugger
 			const oHistory = History.getInstance();
