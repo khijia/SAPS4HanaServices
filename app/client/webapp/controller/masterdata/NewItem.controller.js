@@ -10,8 +10,8 @@ sap.ui.define([
 ) {
 	"use strict";
 	return BaseController.extend("tc.com.controller.masterdata.NewItem", {
-		onInit() {			
-
+		onInit() {
+			
 		},
 
 		onSave: function (oEvent) {

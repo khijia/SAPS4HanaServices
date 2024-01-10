@@ -2,33 +2,55 @@
 	xmlns="sap.m"
 	xmlns:f="sap.ui.layout.form"
 	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:core="sap.ui.core">
+	xmlns:core="sap.ui.core"
+>
 	<Dialog
 		id="mainDialog"
-		title="Add Item Data">
+		title="Add Item Data"
+	>
 		<content>
-			<VBox class="sapUiSmallMargin" id="formContainer" items="{
-					path: 'itemInfo>/details'
-				}">
-				<f:SimpleForm editable="true"
-					layout="ColumnLayout"					
+			<VBox
+				class="sapUiSmallMargin"
+				id="formContainer"
+				items="{
+					path: 'itemInfo>/details',
+					templateShareable: false
+				}"
+			>
+				<f:SimpleForm
+					editable="true"
+					layout="ColumnLayout"
 					columnsM="1"
 					columnsL="1"
 					columnsXL="1"
 					width="400px"
-					>
+				>
 					<f:content>
 						<!-- <core:Title text="Information" /> -->
-						<Label text="Item Name" />
-						<Input value="{itemInfo>ItemName}" />
+						<Label text="Item Name" labelFor="productInput" />
+						<Input
+							id="productInput"
+							placeholder="Enter product"
+							showSuggestion="true"
+							showValueHelp="true"
+							valueHelpRequest=".onValueHelpRequest"
+							suggestionItems="{
+								path: 'products>/ProductCollection',
+								templateShareable: false
+							}"
+						>
+							<suggestionItems>
+								<core:Item text="{products>Name}" />
+							</suggestionItems>
+						</Input>
 						<Label text="Partner Type:" />
-						<Input value="{itemInfo>PartnerType}"></Input>
+						<Input value="{itemInfo>PartnerType}" />
 						<Label text="Partner Id" />
-						<Input value="{itemInfo>PartnerId}"></Input>
+						<Input value="{itemInfo>PartnerId}" />
 						<Label text="Location" />
-						<Input value="{itemInfo>LocationName}"></Input>
+						<Input value="{itemInfo>LocationName}" />
 						<Label text="UOM" />
-						<Input value="{itemInfo>EDIUom}"></Input>
+						<Input value="{itemInfo>EDIUom}" />
 						<!-- <core:Title text="Location" />
 						<Label text="Employee Class" />
 						<Input value="{class}" />
@@ -44,23 +66,29 @@
 						}"></Input> -->
 					</f:content>
 				</f:SimpleForm>
-			</VBox>			
+			</VBox>
 		</content>
 		<footer>
 			<Toolbar>
 				<content>
-					<Button id="messagePopoverBtn"
+					<Button
+						id="messagePopoverBtn"
 						press=".handleMessagePopoverPress"
-						ariaHasPopup="Dialog" />
+						ariaHasPopup="Dialog"
+					/>
 					<ToolbarSpacer />
-					<Button type="Accept"
-							text="Save"
-							press="._generateInvalidUserInput" />
-					<Button id="Reject"
+					<Button
+						type="Accept"
+						text="Save"
+						press="._generateInvalidUserInput"
+					/>
+					<Button
+						id="Reject"
 						text="Reject"
 						type="Reject"
 						press="._closeDialog"
-						ariaHasPopup="Dialog" />
+						ariaHasPopup="Dialog"
+					/>
 				</content>
 			</Toolbar>
 		</footer>

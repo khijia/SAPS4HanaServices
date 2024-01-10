@@ -9,6 +9,9 @@ sap.ui.define([
 	'sap/ui/core/message/Message',
 	'sap/ui/core/library',
 	'sap/ui/core/Core',
+	"sap/ui/core/Fragment",
+	"sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator",
 	'sap/ui/core/Element'
 
 ], function (
@@ -21,6 +24,9 @@ sap.ui.define([
 	Message,
 	coreLibrary,
 	Core,
+	Fragment,
+	Filter,
+	FilterOperator,
 	Element
 ) {
 	"use strict";
@@ -36,17 +42,16 @@ sap.ui.define([
 			const oDialogModel = new JSONModel({
 				"ItemName": 'Pencil',
 				"details":
-				[{
-					ItemId: 1,
-					ItemName: 'Pencil',
-					PartnerType: 'Customer',
-					PartnerName: 'KJ',
-					LocationName: 'US',
-					EDIUom: 'EA'
-				}]
+					[{
+						ItemId: 1,
+						ItemName: 'Pencil',
+						PartnerType: 'Customer',
+						PartnerName: 'KJ',
+						LocationName: 'US',
+						EDIUom: 'EA'
+					}]
 			});
-
-			this.oView = this.getView();
+			
 			this._oMessageManager = Core.getMessageManager();
 
 			// Clear the old messages
@@ -63,9 +68,14 @@ sap.ui.define([
 					that.getView().getModel("itemDetails").setProperty("/Total", oData.results.length);
 				},
 				error: function (oError) {
-
 				}
 			});
+
+			//load products
+			debugger
+			var oProdModel = new JSONModel();
+			oProdModel.loadData("./model/products.json",false);
+			that.getView().setModel(oProdModel, "products");
 		},
 
 		onAddItemData: function () {
@@ -110,6 +120,47 @@ sap.ui.define([
 				const oRouter = this.getOwnerComponent().getRouter();
 				oRouter.navTo("home", {}, true);
 			}
+		},
+
+		//
+		onValueHelpRequest: function (oEvent) {
+			debugger
+			var sInputValue = oEvent.getSource().getValue(),
+				oView = this.getView();
+
+			if (!this._pValueHelpDialog) {
+				this._pValueHelpDialog = Fragment.load({
+					id: oView.getId(),
+					name: "tc.com.view.fragments.products",
+					controller: this
+				}).then(function (oDialog) {
+					oView.addDependent(oDialog);
+					return oDialog;
+				});
+			}
+			this._pValueHelpDialog.then(function(oDialog) {
+				// Create a filter for the binding
+				oDialog.getBinding("items").filter([new Filter("Name", FilterOperator.Contains, sInputValue)]);
+				// Open ValueHelpDialog filtered by the input's value
+				oDialog.open(sInputValue);
+			});
+		},
+
+		onValueHelpSearch: function (oEvent) {			
+			var sValue = oEvent.getParameter("value");
+			var oFilter = new Filter("Name", FilterOperator.Contains, sValue);
+
+			oEvent.getSource().getBinding("items").filter([oFilter]);
+		},
+
+		onValueHelpClose: function (oEvent) {			
+			var oSelectedItem = oEvent.getParameter("selectedItem");
+			oEvent.getSource().getBinding("items").filter([]);
+
+			if (!oSelectedItem) {
+				return;
+			}			
+			this.getView().byId("productInput").setValue(oSelectedItem.getTitle());			
 		}
 	});
 });

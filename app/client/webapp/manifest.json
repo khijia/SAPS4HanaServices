@@ -55,7 +55,7 @@
     "rootView": {
       "viewName": "tc.com.view.App",
       "type": "XML",
-      "async": false,
+      "async": true,
       "id": "fcl"
     },
     "flexEnabled": true,
